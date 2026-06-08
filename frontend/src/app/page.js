@@ -15,28 +15,50 @@ import {
 export default function Home() {
   const [tasks, setTasks] = useState([]);
 
-  const fetchTasks = async () => {
-    const data = await getTasks();
-    setTasks(data);
-  };
-
   useEffect(() => {
-    fetchTasks();
+    const loadTasks = async () => {
+      try {
+        const data = await getTasks();
+        setTasks(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    loadTasks();
   }, []);
 
   const addTask = async (task) => {
-    await createTask(task);
-    fetchTasks();
+    try {
+      await createTask(task);
+
+      const data = await getTasks();
+      setTasks(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const removeTask = async (id) => {
-    await deleteTask(id);
-    fetchTasks();
+    try {
+      await deleteTask(id);
+
+      const data = await getTasks();
+      setTasks(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const changeStatus = async (id, task) => {
-    await updateTask(id, task);
-    fetchTasks();
+    try {
+      await updateTask(id, task);
+
+      const data = await getTasks();
+      setTasks(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
